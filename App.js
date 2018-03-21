@@ -1,17 +1,35 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import { Root } from 'native-base';
+import React from "react";
+import { Root } from "native-base";
+import { StackNavigator, DrawerNavigator } from "react-navigation";
+
 import Page from './src/home/index';
+import SideBar from "./src/sidebar";
 
-const Navigator = StackNavigator({
-  Home: {
-    screen: Page,
+const Drawer = DrawerNavigator(
+  {
+    Home: { screen: Page },
+
+  },
+  {
+    initialRouteName: "Home",
+    contentOptions: {
+      activeTintColor: "#e91e63"
+    },
+    contentComponent: props => <SideBar {...props} />
   }
-});
+);
 
-export default () => (
+const AppNavigator = StackNavigator(
+  {
+    Drawer: { screen: Drawer }
+  },
+  {
+    initialRouteName: "Drawer",
+    headerMode: "none"
+  }
+);
+
+export default () =>
   <Root>
-    <Navigator />
-  </Root>
-)
+    <AppNavigator />
+  </Root>;
